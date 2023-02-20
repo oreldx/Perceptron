@@ -27,9 +27,10 @@ class NeuralNetwork:
     def fit(
         self,
         inputs: npt.NDArray[np.float64], 
-        targets, 
+        targets: npt.NDArray[np.float64],
         lr: float
     ):
+
         activations = np.asarray(inputs)
 
         initial_targets = targets
@@ -47,7 +48,9 @@ class NeuralNetwork:
                 prediction = perceptron.predict(activations)
                 perceptron.fit(activations, target, lr)
                 layer_activiations.append(prediction)
+            
             activations = np.asarray(layer_activiations)
+
 
     def predict(
         self,
