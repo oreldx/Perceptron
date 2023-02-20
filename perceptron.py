@@ -10,7 +10,7 @@ class Perceptron:
         activation_function: str,
     ) -> None:
 
-        self.wheights = [uniform(0., 1.) for _ in range(n)]
+        self.weights = [uniform(0., 1.) for _ in range(n)]
         self.biais = uniform(-1., 1.)
         self.activation_function = activation_function
 
@@ -23,7 +23,7 @@ class Perceptron:
 
         prediction = self.predict(inputs)
         error = target - prediction
-        self.wheights += lr * error * inputs
+        self.weights += lr * error * inputs
         self.biais += error * lr
         # print(f"Error: {error}")
 
@@ -32,7 +32,7 @@ class Perceptron:
         inputs: npt.NDArray[np.float64],
     ) -> float:
 
-        activation = np.dot(self.wheights, inputs) + self.biais
+        activation = np.dot(self.weights, inputs) + self.biais
         return self.match_activation_function(activation)
 
     def match_activation_function(
@@ -85,8 +85,8 @@ def tanh(x):
     Returns:
         Element-wise tanh activations of the input
     """
-    # return np.tanh(x)
-    return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
+    return np.tanh(x)
+    # return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
 
 def relu(x):
     """

@@ -27,14 +27,24 @@ class NeuralNetwork:
     def fit(
         self,
         inputs: npt.NDArray[np.float64], 
-        target: float, 
+        targets, 
         lr: float
     ):
         activations = np.asarray(inputs)
+
+        initial_targets = targets
+
         for idx, layer in enumerate(self.layers):
             layer_activiations = []
-            for i, perceptron in enumerate(layer):
-                prediction = perceptron.predict(activations) 
+
+            targets = []
+            for _ in range(len(layer)//len(initial_targets)):
+                targets.extend(initial_targets)
+            for i in range(len(layer)-len(targets)):
+                targets.append(initial_targets[i])
+
+            for perceptron, target in zip(layer, targets):
+                prediction = perceptron.predict(activations)
                 perceptron.fit(activations, target, lr)
                 layer_activiations.append(prediction)
             activations = np.asarray(layer_activiations)
@@ -46,4 +56,4 @@ class NeuralNetwork:
         activations = np.asarray(inputs)
         for layer in self.layers:
             activations = [perceptron.predict(activations) for perceptron in layer]
-        return activations
+        return np.array(activations)
