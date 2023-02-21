@@ -31,7 +31,6 @@ class Perceptron:
         self, 
         inputs: npt.NDArray[np.float64],
     ) -> float:
-
         activation = np.dot(self.weights, inputs) + self.biais
         return self.match_activation_function(activation)
 
